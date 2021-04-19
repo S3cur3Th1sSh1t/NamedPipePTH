@@ -2,7 +2,7 @@
 
 This project is a PoC code to use Pass-the-Hash for authentication on a local Named Pipe user Impersonation. There also is a blog post for explanation:
 
-[https://s3cur3th1ssh1t.github.io/Named-pipe-PTH/](https://s3cur3th1ssh1t.github.io/Named-pipe-PTH/)
+[https://s3cur3th1ssh1t.github.io/Named-Pipe-PTH/](https://s3cur3th1ssh1t.github.io/Named-Pipe-PTH/)
 
 I faced certain Offensive Security project situations in the past, where I already had the NTLM-Hash of a `low privileged` user account and needed a shell for that user on the current compromised system - but that was not possible with the current public tools. Imagine two more facts for a situation like that - the NTLM Hash could not be cracked *and* there is no process of the victim user to execute shellcode in it or to migrate into that process. This may sound like an absurd edge-case for some of you. I still experienced that multiple times. Not only in one engagement I spend a lot of time searching for the right tool/technique in that specific situation.
 
