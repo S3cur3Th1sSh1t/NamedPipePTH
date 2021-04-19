@@ -14,8 +14,8 @@ My personal goals for a tool/technique were:
 
 There are two ways to use this technique. Either you can compile `\Resources\PipeServerImpersonate.sln` and drop the executable on the remote host and connect to the Named Pipe via `\Resources\Invoke-NamedPipePTH.ps1`:
 
-![alt text](https://raw.githubusercontent.com/S3cur3Th1sSh1t/NamedPipePTH/main/Resources/Example1.JPG)
+![alt text](https://github.com/S3cur3Th1sSh1t/NamedPipePTH/blob/main/Resources/Example1.JPG?raw=true)
 
 Or you can use the standalone script to stay in memory:
 
-![alt text](https://raw.githubusercontent.com/S3cur3Th1sSh1t/NamedPipePTH/main/Resources/Example2.JPG)
+![alt text](https://github.com/S3cur3Th1sSh1t/NamedPipePTH/blob/main/Resources/Example2.JPG?raw=true)
