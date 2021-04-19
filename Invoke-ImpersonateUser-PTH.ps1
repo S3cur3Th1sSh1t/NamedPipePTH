@@ -1711,6 +1711,8 @@ target.
 
 
 #>
+
+
 [CmdletBinding(DefaultParametersetName='Default')]
 param
 (
@@ -1724,6 +1726,14 @@ param
 
 )
 
+    @'
+             
+         __   ___  __   __   __            ___  ___       __   ___  __      __  ___      
+|  |\/| |__) |__  |__) /__` /  \ |\ |  /\   |  |__  |  | /__` |__  |__) __ |__)  |  |__| 
+|  |  | |    |___ |  \ .__/ \__/ | \| /~~\  |  |___ \__/ .__/ |___ |  \    |     |  |  | 
+                                                                                         
+                                               by @shitsecure
+'@
 start-Job -ScriptBlock {
 param
 (
