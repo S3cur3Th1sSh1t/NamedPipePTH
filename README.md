@@ -14,6 +14,8 @@ My personal goals for a tool/technique were:
 * It must to able to also Impersonate `low privileged` accounts - depending on engagement goals it might be needed to access a system with a specific user such as the CEO, HR-accounts, SAP-administrators or others
 * The tool can be used as C2-module
 
+The impersonated user unfortunately has *no network authentication* allowed, as the new process is using an Impersonation Token which is restricted. So you can only use this technique for local actions with another user.
+
 There are two ways to use this technique. Either you can compile `\Resources\PipeServerImpersonate.sln` and drop the executable on the remote host and connect to the Named Pipe via `\Resources\Invoke-NamedPipePTH.ps1`:
 
 ![alt text](https://github.com/S3cur3Th1sSh1t/NamedPipePTH/blob/main/Resources/Example1.JPG?raw=true)
